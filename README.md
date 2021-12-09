@@ -1,3 +1,16 @@
+<!--
+repo name: BEST-README
+description: install_terraform project is a Terraform installer that installs latest Terraform using Ansible
+This project started because I needed a fast way to check for new terraform versions, and got annoyed by all manual installation howTo's
+so I decided to put it up for others to use.
+It's very simple just run <code>install_or_update_terraform.yml</code> and you have terraform on your system. 
+github name:  oGranny
+link: LINK
+logo path: assets/logo.png
+screenshot: assets/ss.png
+twitter: your_username
+email: example@email.com
+-->
 <!-- PROJECT SHIELDS -->
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
