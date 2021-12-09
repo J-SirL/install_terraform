@@ -26,9 +26,23 @@ It works with most Linux distributions
 
 **AlmaLinux /Rocky Linux / Ubuntu / Debian / CentOS / Fedora / Arch Linux system etc.**
 
+<!-- GETTING STARTED -->
+## Getting Started
+1. fork or clone project
+    git clone https://github.com/J-SirL/install_terraform.git
+2. change to project folder
+    cd install_terraform
+3. either create a [terraform] group in the inventory or change hosts to all in playbook
+   <code>
+   [terraform]
+   server.fqdn or ip address
+   </code>
+4. run it with ansible-playbook
+ansible-playbook install_or_update_terraform.yml
+</code>
 Example of usage:
 <code>
-ansible-playbook get_latest_release.yml
+ansible-playbook install_or_update_terraform.yml
 </code>
 
 
