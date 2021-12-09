@@ -29,18 +29,18 @@ It works with most Linux distributions
 <!-- GETTING STARTED -->
 ## Getting Started
 
-1. Clone project
+1. **Clone project**
     ```git clone https://github.com/J-SirL/install_terraform.git```
-2. Change to project folder
+2. **Change to project folder**
     ```cd install_terraform/PlayBooks```
-4. Either create a [terraform] group in the inventory or change hosts to all in playbook
+4. **Either create a [terraform] group in the inventory or change hosts to all in playbook**
     ```yaml
    [terraform]
    terraformclient.example.com # or use the ip address of the system where you want to install terraform
    ```
-4. Run it with ansible-playbook
+4. **Run it with ansible-playbook**
  ```ansible-playbook install_or_update_terraform.yml```
- <br>or alternatively run it with a speciffic inventory file
+ <br>**Alternatively run it with a speciffic inventory file**
     ```ansible-playbook -i inventory install_or_update_terraform.yml```
 
 ## About terraform
