@@ -1,0 +1,46 @@
+---
+- name: get latest release of terraform
+  hosts: terraform
+  become: yes
+  vars:
+    program_dependencies:
+     - curl
+     - unzip
+  pre_tasks:
+  - name: install curl unzip on system
+    ansible.builtin.package:
+      name: "{{ program_dependencies }}"
+      state: present
+  tasks:
+    - name: Get version number of latest terrafor release
+      shell:
+        cmd: curl -s https://api.github.com/repos/hashicorp/terraform/releases/latest | grep tag_name | cut  -d 'v' -f2 | tr -d \"\, 
+      register: terraform_latest_release
+      changed_when: false
+      args:
+        warn: no
+    
+    - set_fact:
+        terraform_latest: "{{ terraform_latest_release.stdout }}"
+      when:
+        - terraform_latest_release.stdout is defined
+
+    - name: Download terraform
+      get_url:
+        url: https://releases.hashicorp.com/terraform/{{terraform_latest}}/terraform_{{terraform_latest}}_linux_amd64.zip
+        dest: /tmp/
+    - name: Unarchive and move terraform to /usr/local/bin
+      ansible.builtin.unarchive:
+        src: /tmp/terraform_{{terraform_latest}}_linux_amd64.zip
+        dest: /usr/local/bin/
+        remote_src: yes
+  post_tasks:
+  - name: Remove unzip
+    ansible.builtin.package:
+      name: unzip
+      state: absent
+  
+  - name: Clean tmp direcory
+    file:
+      name: /tmp/terraform_{{terraform_latest}}_linux_amd64.zip
+      state: absent 
