@@ -3,9 +3,9 @@ repo name: install_terraform
 description: install_terraform project is a Terraform installer that installs latest Terraform using Ansible
 This project started because I needed a fast way to check for new terraform versions, and got annoyed by all manual installation howTo's
 so I decided to put it up for others to use.
-It's very simple just run <code>install_or_update_terraform.yml</code> and you have terraform on your system. 
+It's very simple just clone the repo and run ansible-playbook install_or_update_terraform.yml and you have terraform on your system. 
 github name:  install_terraform
-link: LINK
+link: https://github.com/J-SirL/install_terraform
 email: example@email.com
 -->
 <!-- PROJECT SHIELDS -->
@@ -20,32 +20,30 @@ email: example@email.com
 install_terraform project is a Terraform installer that installs latest Terraform using Ansible
 This project started because I needed a fast way to check for new terraform versions, and got annoyed by all manual installation howTo's
 so I decided to put it up for others to use.
-It's very simple just run <code>install_or_update_terraform.yml</code> and you have terraform on your system. 
+It's very simple just clone the repository and run ```ansible-playbook install_or_update_terraform.yml``` and you have terraform on your system. 
 
 It works with most Linux distributions
 
-**AlmaLinux /Rocky Linux / Ubuntu / Debian / CentOS / Fedora / Arch Linux system etc.**
+**AlmaLinux / Rocky Linux / Ubuntu / Debian / CentOS / Fedora / Arch Linux system etc.**
 
 <!-- GETTING STARTED -->
 ## Getting Started
-1. fork or clone project
-    git clone https://github.com/J-SirL/install_terraform.git
-2. change to project folder
-    cd install_terraform
-3. either create a [terraform] group in the inventory or change hosts to all in playbook
-   <code>
+
+1. Clone project
+    ```git clone https://github.com/J-SirL/install_terraform.git```
+2. Change to project folder
+    ```cd install_terraform/PlayBooks```
+4. Either create a [terraform] group in the inventory or change hosts to all in playbook
+    ```yaml
    [terraform]
-   server.fqdn or ip address
-   </code>
-4. run it with ansible-playbook
-ansible-playbook install_or_update_terraform.yml
-</code>
-Example of usage:
-<code>
-ansible-playbook install_or_update_terraform.yml
-</code>
+   terraformclient.example.com # or use the ip address of the system where you want to install terraform
+   ```
+4. Run it with ansible-playbook
+ ```ansible-playbook install_or_update_terraform.yml```
+ <br>or alternatively run it with a speciffic inventory file
+    ```ansible-playbook -i inventory install_or_update_terraform.yml```
 
-
+## About terraform
 > Terraform is an infrastructure as code (IaC) tool that allows you to build, change, and version infrastructure safely and efficiently. This includes low-level components such as compute instances, storage, and networking, as well as high-level components such as DNS entries, SaaS features, etc. Terraform can manage both existing service providers and custom in-house solutions.
 > 
 > Key Features of Terraform
@@ -61,4 +59,9 @@ ansible-playbook install_or_update_terraform.yml
 > Change Automation
 > Terraform can apply complex changesets to your infrastructure with minimal human interaction. When you update configuration files, Terraform determines what changed and creates incremental execution plans that respect dependencies.
 
+<!-- CONTACT -->
+## Contact
 
+Johan Sörell  - sorell.johan@gmail.com
+
+Project Link: https://github.com/J-SirL/install_terraform
