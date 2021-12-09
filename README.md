@@ -1,6 +1,19 @@
-# Install\_terraform
+<!-- PROJECT SHIELDS -->
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
+[![LinkedIn][linkedin-shield]][linkedin-url]
 
-An Terraform installer that installs latest Terraform using Ansible
+# install\_terraform
+
+<!-- ABOUT THE PROJECT -->
+## About The Project
+install_terraform project is a Terraform installer that installs latest Terraform using Ansible
+This project started because I needed a fast way to check for new terraform versions, and got annoyed by all manual installation howTo's
+so I decided to put it up for others to use.
+It's very simple just run <code>install_or_update_terraform.yml</code> and you have terraform on your system. 
 
 It works with most Linux distributions
 
