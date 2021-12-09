@@ -1,6 +1,13 @@
 ---
+# install_terraform project by Johan Sörell december 2021
+# Project url: https://github.com/J-SirL/install_terraform/
+# install_terraform project is a Terraform installer that installs latest Terraform using Ansible
+# This project started because I needed a fast way to check for new terraform versions, 
+# and got annoyed by all manual installation HowTo's so I decided to put it up for others to use. 
+# It's very simple just clone the repository and run ansible-playbook install_or_update_terraform.yml and you have terraform on your system.
+
 - name: Install or Update Latest Terraform
-  hosts: terraform
+  hosts: terraform # Change to all if you do not want to add a [terraform] group in your inventory
   become: True
   vars:
     program_dependencies:
@@ -13,6 +20,7 @@
       state: present
 
   tasks:
+    # Check the current version of terraform from hashicorp git repository 
     - name: Get version number of latest terrafor release
       ansible.builtin.shell:
         cmd: curl -s https://api.github.com/repos/hashicorp/terraform/releases/latest | grep tag_name | cut  -d 'v' -f2 | tr -d \"\, 
@@ -20,19 +28,21 @@
       changed_when: false
       args:
         warn: no
-    
+
+    # set the variable terraform_latest
     - set_fact:
         terraform_latest: "{{ terraform_latest_release.stdout }}"
       when:
         - terraform_latest_release.stdout is defined
 
+    # check if there is an existing terraform installation
     - name: check for existing terraform installation
       ansible.builtin.stat:
        path: "/usr/local/bin/terraform"
       register: current_terraform
       changed_when: false
 
-
+    # If terraform is installed check version
     - name: Check current Terraform version if installed
       ansible.builtin.shell: /usr/local/bin/terraform --version | grep Terraform | cut  -d 'v' -f2 | tr -d \"\,
       register: current_terraform_version
@@ -40,7 +50,7 @@
       changed_when: false
       failed_when: false
 
-
+    # Download unzip and move terraform to /usr/local/bin/ 
     - name: Install or update Terraform if needed
       block:
         - name: Download unarchive and move terraform to /usr/local/bin
