@@ -50,3 +50,4 @@
             remote_src: yes
       when: 
        "not current_terraform.stat.exists or terraform_latest_release is not defined or terraform_latest_release|string not in current_terraform_version.stdout"
+
