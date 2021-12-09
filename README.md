@@ -8,7 +8,8 @@ github name:  install_terraform
 link: LINK
 email: example@email.com
 -->
-![GitHub contributors](https://img.shields.io/github/contributors/J-SirL/install_terraform?logo=contributors&style=for-the-badge)
+<!-- PROJECT SHIELDS -->
+[![GitHub contributors](https://img.shields.io/github/contributors/J-SirL/install_terraform?logo=contributors&style=for-the-badge)](https://github.com/J-SirL/install_terraform/graphs/contributors)
 [![GitHub issues](https://img.shields.io/github/issues/J-SirL/install_terraform?logo=issues&style=for-the-badge)](https://github.com/J-SirL/install_terraform/issues)
 [![GitHub forks](https://img.shields.io/github/forks/J-SirL/install_terraform?logo=forks&style=for-the-badge)](https://github.com/J-SirL/install_terraform/network)
 [![GitHub stars](https://img.shields.io/github/stars/J-SirL/install_terraform?logo=stars&style=for-the-badge)](https://github.com/J-SirL/install_terraform/stargazers)
