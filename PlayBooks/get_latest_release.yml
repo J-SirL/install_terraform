@@ -25,22 +25,15 @@
       when:
         - terraform_latest_release.stdout is defined
 
-    - name: Download terraform
-      get_url:
-        url: https://releases.hashicorp.com/terraform/{{terraform_latest}}/terraform_{{terraform_latest}}_linux_amd64.zip
-        dest: /tmp/
-    - name: Unarchive and move terraform to /usr/local/bin
+    - name: Download unarchive and move terraform to /usr/local/bin
       ansible.builtin.unarchive:
-        src: /tmp/terraform_{{terraform_latest}}_linux_amd64.zip
+        src:  https://releases.hashicorp.com/terraform/{{terraform_latest}}/terraform_{{terraform_latest}}_linux_amd64.zip
         dest: /usr/local/bin/
         remote_src: yes
+
   post_tasks:
+    # I added Remove unzip because I do not need it on my terraform machine, you can remove this task if you like
   - name: Remove unzip
     ansible.builtin.package:
       name: unzip
       state: absent
-  
-  - name: Clean tmp direcory
-    file:
-      name: /tmp/terraform_{{terraform_latest}}_linux_amd64.zip
-      state: absent 
