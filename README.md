@@ -6,7 +6,7 @@ so I decided to put it up for others to use.
 It's very simple just clone the repo and run ansible-playbook install_or_update_terraform.yml and you have terraform on your system. 
 github name:  install_terraform
 link: https://github.com/J-SirL/install_terraform
-email: example@email.com
+email: sorell.johan@gmail.com
 -->
 <!-- PROJECT SHIELDS -->
 [![GitHub contributors](https://img.shields.io/github/contributors/J-SirL/install_terraform?logo=contributors&style=for-the-badge)](https://github.com/J-SirL/install_terraform/graphs/contributors)
