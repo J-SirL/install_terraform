@@ -1,0 +1,11 @@
+---
+- name: gather some facts
+  hosts: all
+  gather_facts: no
+  tasks:
+   - name: Collect only selected facts
+     ansible.builtin.setup:
+       filter:
+         - 'ansible_distribution'
+         - 'ansible_machine_id'
+         - 'ansible_*_mb'

@@ -1,0 +1,98 @@
+## Created 22 Jan 2022
+# usage: example of how to create an inventory file from all vm's residing in a libvirt cluster
+---
+- name: Debug playbook checking node ip's
+  hosts: localhost
+  gather_facts: no
+  connection: local
+  tasks: 
+    # Simple check for ip's connected to the virbr0 network
+    - name: check ip's
+      shell: set -o pipefail &&  arp -n -i virbr0 |tail -n +2 |  awk '{print $1}'
+    #      shell: nmap -n -sn 192.168.122.* -oG - | awk '/Up$/{print $2}'
+      register: active_nodes
+      changed_when: no
+
+    - name: step nodes
+      debug:
+        msg: "{{ item }}"
+        verbosity: 3
+      loop: "{{ active_nodes.stdout_lines }}"
+      changed_when: no
+
+    #- fail:
+    #    msg: "debug stop"
+
+
+
+- name: get name of hosts from IP addresses on virbr0 network
+  hosts: localhost
+  gather_facts: no
+  connection: local 
+  tasks:
+   - name: list only running VMs
+     community.libvirt.virt:
+       command: list_vms
+       state: running
+     register: running_vms
+
+  # - name: Write the running_vms instance host key to known hosts
+  #   connection: local
+  #   shell: "ssh-keyscan -H {{ running_vms.list_vms }} >> ~/.ssh/known_hosts"
+
+   - name: Add hosts to the group DynamicHosts
+     add_host:
+       hostname: "{{ item }}"
+       groups:
+         DynamicHosts
+     loop:  "{{ running_vms.list_vms }}" 
+
+- hosts: DynamicHosts
+  become: yes
+  gather_facts: yes
+  vars:
+    user: jsorell
+  tasks:
+
+    - name: setup inventory
+      setup: ~
+
+
+    - name: get hostname
+      command: hostname -f
+      register: thenode_name
+      
+    - name: hostnames
+      debug:
+         msg: "{{ thenode_name }}"
+         verbosity: 3  
+#    - debug:
+#        var: hostvars
+
+
+    - name: Checking name
+      debug:
+        msg: "{{ ansible_fqdn }}"
+        verbosity: 3
+
+# I don't create hosts file at the moment
+#    - name: create hosts_file
+#      template:
+#        src: templates/hosts.j2 
+#        dest: /etc/hosts
+#        owner: root
+#        group: root
+#        mode: '0644'
+#        force: yes
+#      delegate_to: "{{ delegate_host | default('localhost') }}"  # use the default value to specify your controller if no value is set default('your ansible node') 
+#      #become: no
+
+
+
+    - name: Create ansible inventory files
+      template:
+        src: templates/inventory.j2 
+        dest: /inventory
+        owner: "{{ user }}"
+        group: "{{ user }}"
+      delegate_to: "{{ delegate_host | default('localhost') }}"

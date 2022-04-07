@@ -1,0 +1,25 @@
+---
+- name: check terraform version
+  hosts: terraform
+  vars: 
+    terraform_target_version: 1.2
+  tasks:
+   - name: check for existing terraform installation
+     stat:
+      path: "/usr/local/bin/terraform"
+     register: current_terraform
+
+   - name: check Terraform version
+     shell: /usr/local/bin/terraform --version | grep Terraform | cut  -d 'v' -f2 | tr -d \"\,
+     register: current_terraform_version
+     when: current_terraform.stat.exists
+     changed_when: false
+     failed_when: false
+
+   - name: block test
+     block:
+      - name: Update needed because
+        debug:
+          msg: "Terraform version on system is {{ current_terraform_version.stdout_lines | default('Not installed')  }}"
+     when: 
+      "not current_terraform.stat.exists or terraform_target_version is not defined or terraform_target_version|string not in current_terraform_version.stdout"

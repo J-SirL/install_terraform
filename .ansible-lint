@@ -1,0 +1,5 @@
+warn_list:  # or 'skip_list' to silence them completely
+  - experimental  # all rules tagged as experimental
+  - no-changed-when  # Commands should not change things if nothing needs doing
+  - risky-shell-pipe  # Shells that use pipes should set the pipefail option
+  - unnamed-task  # All tasks should be named

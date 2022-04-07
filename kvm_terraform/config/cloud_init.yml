@@ -4,23 +4,27 @@
 # https://cloudinit.readthedocs.io/en/latest/topics/examples.html
 #bootcmd:
 #  - echo 192.168.0.1 gw.homedns.xyz >> /etc/hosts
+hostname: terra_play
+fqdn: terra_play.sitedevelopments.lan
+manage_etc_hosts: True
+users:
+  - name: jsorell
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    gecos: My Demo user
+    lock_passwd: False
+    ssh_pwauth: True
+    chpasswd: { expire: False }
+    shell: /bin/bash
+    groups: users, wheel
+    passwd: 6D15B0319FD234DFA1E097AECC9E652AFE08456F1A6E847A65775FB7B180188B
+    ssh-authorized-keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCu8qM3ZWlMmGErh0oAo0LWM+AS9OpmQB6own+vOxYI9DolnAixDUkjvGDUY86AOb6XvFC/QEhM1ZhxJm83srcFyRjFA7BvFMaYAoiLfGEkc9yTiUlXKXIO5jhcPrAyf0OImqQuyvxhaAzMODmGUPLASdKM+o88E2GnwoGa8VWJ8uyZKK1s0NttOSI+IsfW72D4T7EfJXI3hSjkc+cxXN0RiVgwrBbtu2SSMMfkE3K0MLjBsv2UnjnDB2qxU9Z4uT4PIZSAPvuAyyH2vm6F8jrNZ4hf5miyJI4uzliDaFCcu7WVMndbwBBgcCgvkuJqP0wF1O9N20PfKUnH3eLWXfvhnPGyKmS8FobuYcnibLy+1jaNVYc6fnCb+j825AGFLSQFskFu05wZaG0VgnCFTF4+4ygEsU7EnBA53fWDqOXtGf6u6MfdQ0xvL9b6qHWtCIeAAS/kMfQSdmaKxKXWob/XQwoWOwIXZKfka/A7PGTQ3qzZkKnHcVYlDxZMTYgbDwM0a0elfsmFymq7ZKcZByF6VjpYEweW1/8l6RP2R2Ppp4p8Np3K8PFFK5DZsoi9hPX92XOjnCScp8g7CsodhlQKhnGXI96xEnM4vBusWZs9PLTShnCYsH5cjQbzk6T0IR+iXhBSXGV9/okDoTmc1oVFaHuxLTn37PzD4p5QJWSW7Q== centos
 runcmd:
  - [ ls, -l, / ]
  - [ sh, -xc, "echo $(date) ': hello world!'" ]
-ssh_pwauth: true
 disable_root: True
 chpasswd:
   list: |
      root:password
   expire: false
-users:
-  - name: terraformuser
-    sudo: ALL=(ALL) NOPASSWD:ALL
-    groups: users, wheel
-    home: /home/terraformuser
-    shell: /bin/bash
-    lock_passwd: false
-    passwd: 6D15B0319FD234DFA1E097AECC9E652AFE08456F1A6E847A65775FB7B180188B
-    ssh-authorized-keys:
-      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCu8qM3ZWlMmGErh0oAo0LWM+AS9OpmQB6own+vOxYI9DolnAixDUkjvGDUY86AOb6XvFC/QEhM1ZhxJm83srcFyRjFA7BvFMaYAoiLfGEkc9yTiUlXKXIO5jhcPrAyf0OImqQuyvxhaAzMODmGUPLASdKM+o88E2GnwoGa8VWJ8uyZKK1s0NttOSI+IsfW72D4T7EfJXI3hSjkc+cxXN0RiVgwrBbtu2SSMMfkE3K0MLjBsv2UnjnDB2qxU9Z4uT4PIZSAPvuAyyH2vm6F8jrNZ4hf5miyJI4uzliDaFCcu7WVMndbwBBgcCgvkuJqP0wF1O9N20PfKUnH3eLWXfvhnPGyKmS8FobuYcnibLy+1jaNVYc6fnCb+j825AGFLSQFskFu05wZaG0VgnCFTF4+4ygEsU7EnBA53fWDqOXtGf6u6MfdQ0xvL9b6qHWtCIeAAS/kMfQSdmaKxKXWob/XQwoWOwIXZKfka/A7PGTQ3qzZkKnHcVYlDxZMTYgbDwM0a0elfsmFymq7ZKcZByF6VjpYEweW1/8l6RP2R2Ppp4p8Np3K8PFFK5DZsoi9hPX92XOjnCScp8g7CsodhlQKhnGXI96xEnM4vBusWZs9PLTShnCYsH5cjQbzk6T0IR+iXhBSXGV9/okDoTmc1oVFaHuxLTn37PzD4p5QJWSW7Q== centos
 final_message: "The system is finally up, after $UPTIME seconds"

@@ -1,0 +1,48 @@
+{# Create an inventory file /home/admin/inventory with the following:
+
+    1. node1.domainname.xxx is a member of the dev host group. 
+    2. node2.domainname.xxx is a member of the test host group. 
+    3. node3.domainname.xxx is a member of the prod host group. 
+    4. node4.domainname.xxxis a member of the prod host group. 
+    5. node5.domainname.xxx is a member of the dev host group. 
+    6. node6.domainname.xxx is a member of the test host group.
+    7. Prod group is a part of webservers
+    8. Test group is a part of database
+#}
+
+#{{ ansible_managed }}
+
+{#{% for host in play_hosts %}
+{{ hostvars[host]['ansible_hostname'] }} ansible_host={{ hostvars[host]['ansible_default_ipv4']['address'] }}
+{% endfor %} #}
+{% for host in play_hosts %}
+{% if hostvars[host]['ansible_hostname'] == 'node5'%}
+[dev]
+{{ hostvars[host]['ansible_hostname'] }} ansible_host={{ hostvars[host]['ansible_default_ipv4']['address'] }}
+{% elif hostvars[host]['ansible_hostname'] == 'node1'%}
+{{ hostvars[host]['ansible_hostname'] }} ansible_host={{ hostvars[host]['ansible_default_ipv4']['address'] }}
+{% endif %}
+{% endfor %}
+{% for host in play_hosts %}
+{% if hostvars[host]['ansible_hostname'] == 'node2'%}
+[test]
+{{ hostvars[host]['ansible_hostname'] }} ansible_host={{ hostvars[host]['ansible_default_ipv4']['address'] }}
+{% elif hostvars[host]['ansible_hostname'] == 'node6'%}
+{{ hostvars[host]['ansible_hostname'] }} ansible_host={{ hostvars[host]['ansible_default_ipv4']['address'] }}
+{% endif %}
+{% endfor %}
+{% for host in play_hosts %}
+{% if hostvars[host]['ansible_hostname'] == 'node4'%}
+[prod]
+{{ hostvars[host]['ansible_hostname'] }} ansible_host={{ hostvars[host]['ansible_default_ipv4']['address'] }}
+{% elif hostvars[host]['ansible_hostname'] == 'node3'%}
+{{ hostvars[host]['ansible_hostname'] }} ansible_host={{ hostvars[host]['ansible_default_ipv4']['address'] }}
+{% endif %}
+{% endfor %}
+[webservers:children]
+prod
+[database:children]
+test
+
+
+

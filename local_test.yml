@@ -1,0 +1,17 @@
+---
+- name: testing local actions
+  hosts: localhost
+  become: true
+  vars:
+   - default_packages:
+      - curl
+      - wget
+  pre_tasks:
+   - name: Make shure ansible_controller has curl and wget
+     local_action:
+       module: ansible.builtin.package
+       name: "{{ default_packages }}"
+       state: present
+  tasks:
+   - debug:
+       msg: "Hello"

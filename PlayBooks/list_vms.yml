@@ -1,0 +1,70 @@
+---
+- name: List all VM's and create a md file
+  hosts: localhost
+  connection: local
+  tasks:
+   - name: list all VMs
+     community.libvirt.virt:
+       command: list_vms
+     register: all_vms
+
+   - name: show all vm's
+     debug:
+      msg: "{{all_vms}}"
+
+   - name: debug variables
+     debug:
+        msg: "{{ ansible_distribution }}"
+
+   - name: list only running VMs
+     community.libvirt.virt:
+       command: list_vms
+       state: running
+     register: running_vms
+
+
+   #- name: Running VM's
+   #  debug:
+   #     msg: "{{ running_vms }}"
+
+## Check connectivity to running_vms
+
+- name: MASTER PLAY | Connect to all host in the inventory to update the markdown file
+  hosts: all
+  connection: local
+  gather_facts: no
+  tasks:
+    - block:
+        - name: check to see if the port is open
+          wait_for_connection:
+            timeout: 10
+          vars:
+            ansible_connection: ssh
+        - name: add devices with connectivity to the "working_hosts" group
+          group_by:
+              key: "working_hosts"
+        - name: SET facts was_accessible up
+          set_fact:
+            was_accessible: 'up'
+      rescue:
+        - debug: msg="cannot connect to "
+        - name: SET facts was_accessible down
+          set_fact:
+            was_accessible: "down"
+        - name: add devices with connectivity to the "currently_down_hosts" group
+          group_by:
+              key: "currently_down"        
+      ignore_unreachable: true
+    - meta: clear_host_errors
+
+
+- name: getting facts from machines
+  hosts: "{{ running_vms }}"
+  tasks:
+
+   - name: Collect only selected facts
+     ansible.builtin.setup:
+       filter:
+         - 'ansible_distribution'
+         - 'ansible_machine_id'
+         - 'ansible_*_mb'

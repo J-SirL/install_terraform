@@ -1,0 +1,9 @@
+#
+plugin: community.libvirt.libvirt
+uri: 'qemu:///system'
+#inventory_hostname: name
+#groups:
+#use_extra_vars: yes
+#keyed_groups: default
+#parent_group: developers
+

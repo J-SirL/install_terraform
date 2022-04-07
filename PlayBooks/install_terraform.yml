@@ -1,0 +1,20 @@
+---
+- name: Installing Terraform on RHEL or Ubunty systems
+  hosts: terraform
+  become: yes
+  vars:
+   - default_packages:
+      - curl
+      - wget
+      - unzip
+  pre_tasks:
+   - name: Install | curl | wget | unzip on Ansible Controller
+     local_action:
+       module: ansible.builtin.package
+       name: "{{ default_packages }}"
+       state: present
+  tasks:
+
+  - name: first
+    debug:
+      msg: "running"
